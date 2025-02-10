@@ -39,3 +39,90 @@ WAL ensures no data loss before memtable flush.
 Sequential writes optimize disk I/O, preventing fragmentation.
 
 **Tradeoff**: Read performance can slow down without efficient indexing (e.g., Bloom filters).
+
+## Run
+
+To run this project, navigate to project directory and run
+
+```bash
+ npm i
+```
+
+Once all dependencies are installed, run  
+
+```bash
+ npm run dev
+```
+To test the endpoints using [autocannon](https://github.com/mcollina/autocannon) run 
+
+```bash
+ npm run test
+```
+
+
+## API Reference
+
+#### Post Key and Value
+
+```http
+  POST /put
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `key` | `JSON` | **Required**.  |
+| `value` | `JSON` | **Required**. |
+
+#### Get item
+
+```http
+  GET /read/${key}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `key`      | `string` | **Required**. key of value to fetch |
+
+
+#### Get range
+
+```http
+  GET /readrange/${startkey}/${endkey}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `startkey`      | `string` | **Required**. start key of range to fetch |
+| `endkey`      | `string` | **Required**. end key of range to fetch |
+
+
+#### Batch post keys and values
+
+```http
+  POST /batchput
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `key` | `JSON Array` | **Required**.  |
+| `value` | `JSON Array` | **Required**. |
+
+
+```
+  example request:
+  {
+    "keys":["key1","key2","key3", "key4", "key5"],
+    "values": ["value1","value2","value3","value4", "value5"]
+  }
+```
+
+#### Delete value
+
+```http
+  DELETE /delete/${key}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `key`      | `string` | **Required**. key of value to delete |
+
